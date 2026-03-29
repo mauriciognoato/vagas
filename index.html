@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mapa de Vagas - Condomínio Maurício Gnoato</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --azul: #1F3140;
+      --azul-escuro: #17232F;
+      --dourado: #C4A776;
+      --dourado-hover: #B2915F;
+      --creme: #F1E6D4;
+      --fundo: #F5F0E6;
+      --branco: #FFFFFF;
+      --borda: #E0D4C0;
+      --texto: #17232F;
+      --verde: #27ae60;
+      --vermelho: #c0392b;
+      --amarelo: #f39c12;
+      --azul-info: #1976d2;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--fundo);
+      color: var(--texto);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--azul);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .brand img {
+      border-radius: 12px;
+    }
+
+    .brand-text { display: flex; flex-direction: column; }
+    .brand-name {
+      font-family: 'Roboto', sans-serif;
+      color: var(--branco);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+    }
+    .brand-sub {
+      color: var(--dourado);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    nav { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+    nav a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    nav a:hover { color: var(--dourado); background: rgba(255,255,255,0.05); }
+
+    .btn-voltar {
+      margin-left: 8px;
+      padding: 8px 20px;
+      background: var(--dourado);
+      color: var(--azul-escuro);
+      border: none;
+      border-radius: 6px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-voltar:hover { background: var(--dourado-hover); transform: translateY(-1px); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--branco);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* HERO - COM FUNDO ESCURO AZULADO */
+    .hero {
+      background: var(--azul);
+      padding: 60px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 25, 35, 0.85);
+      z-index: 1;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C4A776' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+    .hero-content { 
+      position: relative; 
+      max-width: 800px; 
+      margin: 0 auto;
+      z-index: 2;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(196,167,118,0.3);
+      border: 1px solid var(--dourado);
+      color: var(--dourado);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(4px);
+    }
+    .hero h1 {
+      font-family: 'Roboto', sans-serif;
+      color: var(--branco);
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .hero h1 em { color: var(--dourado); font-style: normal; }
+    .hero p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 0;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+
+    /* MAPA SECTION */
+    .mapa-section {
+      background: var(--branco);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    .mapa-container {
+      padding: 40px;
+      text-align: center;
+      background: var(--fundo);
+    }
+
+    .mapa-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      border: 2px solid var(--dourado);
+    }
+
+    /* INFO SECTION */
+    .info-section {
+      background: linear-gradient(135deg, var(--azul) 0%, var(--azul-escuro) 100%);
+      border-radius: 16px;
+      padding: 40px;
+      margin-top: 20px;
+      color: var(--branco);
+    }
+
+    .info-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--dourado);
+    }
+
+    .info-title i {
+      font-size: 2rem;
+      font-style: normal;
+    }
+
+    .info-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 24px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .info-highlight {
+      background: rgba(196,167,118,0.15);
+      border-left: 4px solid var(--dourado);
+      padding: 20px 24px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .info-highlight p {
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .info-highlight p:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-highlight strong {
+      color: var(--dourado);
+    }
+
+    .rules-list {
+      list-style: none;
+      margin-top: 16px;
+    }
+
+    .rules-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .rules-list li i {
+      color: var(--dourado);
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--azul-escuro);
+      color: rgba(255,255,255,0.6);
+      padding: 48px 24px 24px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 28px;
+    }
+
+    .footer-brand h2 {
+      font-family: 'Roboto', sans-serif;
+      color: var(--branco);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .footer-brand p {
+      font-size: 0.83rem;
+      line-height: 1.7;
+    }
+
+    .footer-col h4 {
+      color: var(--dourado);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .footer-col a {
+      display: block;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.83rem;
+      margin-bottom: 9px;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover {
+      color: var(--dourado);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-bottom p {
+      font-size: 0.78rem;
+    }
+
+    .footer-bottom span {
+      color: var(--dourado);
+    }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      nav {
+        display: none;
+        position: absolute;
+        top: 70px; left: 0; right: 0;
+        background: var(--azul-escuro);
+        flex-direction: column;
+        padding: 16px 24px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        gap: 4px;
+        z-index: 99;
+      }
+      nav.open { display: flex; }
+      nav a { padding: 10px 12px; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .mapa-container { padding: 20px; }
+      .info-section { padding: 24px; }
+      .info-title { font-size: 1.2rem; }
+    }
+
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="#" class="brand">
+        <img src="logo.png" alt="Logo" style="width:44px;height:44px;border:2px solid var(--dourado);object-fit:cover;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'44\' height=\'44\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%231F3140\'/%3E%3Ctext x=\'50\' y=\'67\' font-size=\'48\' text-anchor=\'middle\' fill=\'%23C4A776\' font-family=\'Arial\'%3EMG%3C/text%3E%3C/svg%3E';"/>
+        <div class="brand-text">
+          <span class="brand-name">Maurício Gnoato</span>
+          <span class="brand-sub">Condomínio Residencial</span>
+        </div>
+      </a>
+      <nav id="main-nav">
+        <a href="http://mauriciognoato.github.io/site">Início</a>
+        <a href="#mapa">Mapa de Vagas</a>
+        <a href="#regras">Regras</a>
+        <a href="#orientacoes">Orientações</a>
+        <a href="http://mauriciognoato.github.io/site" class="btn-voltar" style="background:var(--dourado);color:var(--azul-escuro);padding:8px 16px;">← Voltar ao Portal</a>
+      </nav>
+      <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">✦ Estacionamento</div>
+      <h1>Mapa de Vagas <em>de Estacionamento</em></h1>
+      <p>Consulte a disposição das vagas e respeite os espaços demarcados.</p>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    
+    <!-- MAPA SECTION -->
+    <div class="mapa-section" id="mapa">
+      <div class="mapa-container">
+        <img src="vagas.png" alt="Mapa de Vagas de Estacionamento" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'500\' viewBox=\'0 0 800 500\'%3E%3Crect width=\'800\' height=\'500\' fill=\'%23E0D4C0\'/%3E%3Ctext x=\'400\' y=\'250\' font-size=\'24\' text-anchor=\'middle\' fill=\'%231F3140\' font-family=\'Arial\'%3EMapa de Vagas%3C/text%3E%3Ctext x=\'400\' y=\'300\' font-size=\'16\' text-anchor=\'middle\' fill=\'%231F3140\' font-family=\'Arial\'%3Evagas.png%3C/text%3E%3C/svg%3E';"/>
+      </div>
+    </div>
+
+    <!-- INFO SECTION -->
+    <div class="info-section" id="orientacoes">
+      <div class="info-title">
+        <i>🚗</i>
+        <span>Orientações de Estacionamento</span>
+      </div>
+      <div class="info-text">
+        <p>O estacionamento do Condomínio Maurício Gnoato foi projetado para atender todos os moradores e visitantes de forma organizada e segura. A colaboração de todos é essencial para garantir o bom funcionamento e evitar transtornos.</p>
+      </div>
+      
+      <div class="info-highlight">
+        <p><strong>⚠️ ATENÇÃO IMPORTANTE:</strong> As <strong>vagas rotativas</strong> devem ser respeitadas rigorosamente. Cada morador possui sua vaga demarcada e identificada. <strong>Não estacione nas vagas de outros moradores</strong> para evitar conflitos e garantir que todos tenham seu espaço garantido.</p>
+      </div>
+      
+      <div class="info-title" style="margin-top: 32px; font-size: 1.2rem;">
+        <i>📋</i>
+        <span>Regras de Uso</span>
+      </div>
+      
+      <ul class="rules-list" id="regras">
+        <li><i>✓</i> <strong>Vagas fixas:</strong> Cada morador tem sua vaga demarcada com o número da unidade. Utilize apenas a sua vaga.</li>
+        <li><i>✓</i> <strong>Vagas rotativas:</strong> São destinadas exclusivamente para visitantes e devem ser utilizadas por tempo limitado. Respeite o período máximo de permanência.</li>
+        <li><i>✓</i> <strong>Não estacione em vagas de outros moradores:</strong> É terminantemente proibido estacionar em vagas que não sejam a sua, mesmo que temporariamente.</li>
+        <li><i>✓</i> <strong>Respeite as marcações:</strong> Estacione sempre dentro dos limites da vaga, não ultrapassando as linhas demarcadas.</li>
+        <li><i>✓</i> <strong>Velocidade máxima:</strong> No estacionamento, a velocidade máxima permitida é de 10 km/h. Dirija com cuidado.</li>
+        <li><i>✓</i> <strong>Manutenção e limpeza:</strong> Mantenha sua vaga limpa e não utilize para armazenamento de materiais ou objetos que não sejam veículos.</li>
+        <li><i>✓</i> <strong>Veículos abandonados:</strong> Veículos que permanecerem estacionados por mais de 30 dias sem movimentação serão notificados e poderão ser removidos.</li>
+      </ul>
+      
+      <div class="info-highlight" style="margin-top: 24px; background: rgba(196,167,118,0.25);">
+        <p><strong>🤝 PEDIMOS A COLABORAÇÃO DE TODOS!</strong></p>
+        <p>Viver em comunidade requer respeito e consideração pelo próximo. Ao respeitar as vagas de estacionamento, você contribui para um ambiente mais harmonioso e evita situações desagradáveis. <strong>Juntos, fazemos do nosso condomínio um lugar melhor para se viver!</strong></p>
+      </div>
+    </div>
+    
+    <!-- CONTATO RÁPIDO -->
+    <div style="margin-top: 40px; text-align: center;">
+      <a href="http://mauriciognoato.github.io/site" style="display: inline-flex; align-items: center; gap: 8px; background: var(--azul); color: var(--branco); padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s; border: none; cursor: pointer;">
+        ← Voltar ao Portal Principal
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <h2>Condomínio Maurício Gnoato</h2>
+          <p>Portal oficial para condôminos. Transparência, participação e gestão eficiente para uma comunidade mais harmoniosa e bem administrada.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navegação</h4>
+          <a href="http://mauriciognoato.github.io/site">Início</a>
+          <a href="#mapa">Mapa de Vagas</a>
+          <a href="#regras">Regras de Uso</a>
+          <a href="#orientacoes">Orientações</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contato</h4>
+          <a href="http://mauriciognoato.github.io/site#contato">Fale Conosco</a>
+          <a href="#">Regulamento Interno</a>
+          <a href="#">Convenção</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Condomínio Maurício Gnoato. Todos os direitos reservados.</p>
+        <p>Estacionamento - Respeite as vagas</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('main-nav').classList.toggle('open');
+    }
+
+    // Fechar menu ao clicar em um link
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('main-nav').classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>
